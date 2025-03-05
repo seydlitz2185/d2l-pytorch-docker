@@ -3,4 +3,4 @@ data/*
 !data/.gitkeep
 .vscode
 .idea
-
+poetry.lock

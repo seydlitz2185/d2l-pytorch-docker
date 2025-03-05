@@ -110,7 +110,7 @@ RUN <<EOT
     conda activate d2l-pytorch
     poetry config virtualenvs.create false
     poetry lock
-    # poetry install --no-interaction
+    poetry install --no-interaction
     
 EOT
 

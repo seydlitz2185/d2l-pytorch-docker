@@ -100,15 +100,18 @@ RUN <<EOT
     conda install -n d2l-pytorch poetry -c conda-forge -y
 EOT
 # 阶段2: 复制项目文件
-COPY pyproject.toml poetry.lock /root/
+COPY pyproject.toml /root/
 
 # 阶段3: 安装依赖
 RUN <<EOT
-    eval "$(conda shell.bash hook)" 
+    eval "$(conda shell.bash hook)"
+    conda init
+    source ~/.bashrc
     conda activate d2l-pytorch
     poetry config virtualenvs.create false
-    poetry install --no-interaction
-
+    poetry lock
+    # poetry install --no-interaction
+    
 EOT
 
 VOLUME [ "/root/d2l-pytorch" ]

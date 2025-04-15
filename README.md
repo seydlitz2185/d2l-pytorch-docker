@@ -95,7 +95,7 @@
 
 将仓库中文件 `docker-proxy.txt`内容复制到Dockers Desktop Settings （界面右上齿轮图标）-> Docker Engine处的配置文件中。注意在配置文件添加新内容时，上一行末尾要补上英文逗号“,”。
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker12.png)
+![img](./img/docker12.png)
 
 #### 运行docker build 命令
 
@@ -115,7 +115,7 @@ cd C:\Users\用户名\Documents\GitHub\d2l-pytorch-docker #Windows PowerShell
 docker build -t d2l-pytorch-uv -f mnt/c/Users/用户名/Documents/Github/d2l-pytorch-docker/d2l-uv.Dockerfile .
 ```
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker3.png)
+![img](./img/docker3.png)
 
 注意事项：
 
@@ -129,7 +129,7 @@ docker build -t d2l-pytorch-uv -f mnt/c/Users/用户名/Documents/Github/d2l-pyt
 docker run -it --rm --name d2l-docker -v /mnt/c/Users/用户名/Documents/GitHub/d2l-zh:/root/d2l-pytorch d2l-pytorch-uv:latest 
 ```
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker4.png)
+![img](./img/docker4.png)
 
 此时可在Docker Desktop Dashboard中看到已经启动的容器。
 
@@ -143,17 +143,21 @@ docker run -it --rm --name d2l-docker -v /mnt/c/Users/用户名/Documents/GitHub
 
 ### VS Code 连接Docker容器
 
-首先要在**本机VS Code扩展商店**中安装好Docker 扩展，随后点击左侧菜单栏中的Docker图标，在CONTAINERS一栏中右键正在运行的容器，选择“附加Visual Studio Code”。
+首先要在**本机VS Code扩展商店**中安装好Docker 扩展。
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker7.png)
+![img](./img/docker6.png)
+
+随后点击左侧菜单栏中的Docker图标，在CONTAINERS一栏中右键正在运行的容器，选择“附加Visual Studio Code”。
+
+![img](./img/docker7.png)
 
 在**附加到的docker容器中VS Code扩展商店**中搜索并安装扩展“Jupyter”和“Python”。
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker8.png)
+![img](./img/docker8.png)
 
 安装完成扩展后，选择任意的notebook文件执行，发现可以正常显示并运行，说明环境配置成功。
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker9.png)
+![img](./img/docker9.png)
 
 注意事项：
 

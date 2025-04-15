@@ -119,7 +119,7 @@ docker build -t d2l-pytorch-uv -f mnt/c/Users/用户名/Documents/Github/d2l-pyt
 
 注意事项：
 
-    1. 本配置文件为保证兼容性和节约构建时间与硬盘空间，只下载cpu版本的torch软件包。但cpu版本的torch软件包在很多国内镜像源中缺失，只能指定从torch官网下载，可能存在下载缓慢的问题。
+本配置文件为保证兼容性和节约构建时间与硬盘空间，只下载cpu版本的torch软件包。但cpu版本的torch软件包在很多国内镜像源中缺失，只能指定从torch官网下载，可能存在下载缓慢的问题。
 
 ### 启动Docker容器
 
@@ -133,11 +133,11 @@ docker run -it --rm --name d2l-docker -v /mnt/c/Users/用户名/Documents/GitHub
 
 此时可在Docker Desktop Dashboard中看到已经启动的容器。
 
-![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker5.png)
+![img](./img/docker5.png)
 
 注意事项：
 
-    1. 运行Docker容器前请先从d2l官方仓库中克隆源码。`d2l-uv.Dockerfile`在镜像中创建了 `/root/d2l-pytorch`目录，以备挂载d2l源码。
+1. 运行Docker容器前请先从d2l官方仓库中克隆源码。`d2l-uv.Dockerfile`在镜像中创建了 `/root/d2l-pytorch`目录，以备挂载d2l源码。
 
 2. 建议在挂载后通过 `cp -r` 命令克隆一份源码，缓解跨文件系统挂载导致io效率低下的问题。亦可使用docker volume的方式挂载。
 

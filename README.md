@@ -87,6 +87,77 @@
 
 ### 构建Docker镜像
 
-Docker换源
+#### Docker换源（可选）
 
-### 运行Docker容器
+由于某些原因，Docker的官方镜像仓库Docker Hub已经不能在中国大陆直接访问。这里可以选择向Docker配置文件中添加镜像站点解决这个问题。当然，如果你能够用其他方式正常连接到Docker Hub，可以忽略这一小节的内容。
+
+**注意：本仓库获得的Docker镜像站点均从互联网上检索得到，不对镜像站点的安全性和可用性负责。**
+
+将仓库中文件 `docker-proxy.txt`内容复制到Dockers Desktop Settings （界面右上齿轮图标）-> Docker Engine处的配置文件中。注意在配置文件添加新内容时，上一行末尾要补上英文逗号“,”。
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker12.png)
+
+#### 运行docker build 命令
+
+在终端中将当前工作目录切换到克隆的本仓库目录下，本教程中仓库目录为“C:\Users\\用户名\Documents\GitHub\d2l-pytorch-docker”。
+
+对于Windows用户，这一步既可以在Windows的Power Shell中执行，也可以在WSL2的Linux终端中执行。以下教程使用WSL2的Linux终端执行。
+
+```
+cd /mnt/c/Users/用户名/Documents/GitHub/d2l-pytorch-docker #WSL2 Linux 终端
+
+cd C:\Users\用户名\Documents\GitHub\d2l-pytorch-docker #Windows PowerShell
+```
+
+再执行以下命令构建镜像，本教程中默认使用 `d2l-uv.Dockerfile` 配置文件构建镜像，等待构建完毕即可。
+
+```
+docker build -t d2l-pytorch-uv -f mnt/c/Users/用户名/Documents/Github/d2l-pytorch-docker/d2l-uv.Dockerfile .
+```
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker3.png)
+
+注意事项：
+
+    1. 本配置文件为保证兼容性和节约构建时间与硬盘空间，只下载cpu版本的torch软件包。但cpu版本的torch软件包在很多国内镜像源中缺失，只能指定从torch官网下载，可能存在下载缓慢的问题。
+
+### 启动Docker容器
+
+执行以下命令运行构建好的 `d2l-pytorch-uv`镜像，用交互式终端启动一个名为“d2l-docker”的docker容器，该容器将在退出后自动删除。
+
+```
+docker run -it --rm --name d2l-docker -v /mnt/c/Users/用户名/Documents/GitHub/d2l-zh:/root/d2l-pytorch d2l-pytorch-uv:latest 
+```
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker4.png)
+
+此时可在Docker Desktop Dashboard中看到已经启动的容器。
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker5.png)
+
+注意事项：
+
+    1. 运行Docker容器前请先从d2l官方仓库中克隆源码。`d2l-uv.Dockerfile`在镜像中创建了 `/root/d2l-pytorch`目录，以备挂载d2l源码。
+
+2. 建议在挂载后通过 `cp -r` 命令克隆一份源码，缓解跨文件系统挂载导致io效率低下的问题。亦可使用docker volume的方式挂载。
+
+### VS Code 连接Docker容器
+
+首先要在**本机VS Code扩展商店**中安装好Docker 扩展，随后点击左侧菜单栏中的Docker图标，在CONTAINERS一栏中右键正在运行的容器，选择“附加Visual Studio Code”。
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker7.png)
+
+在**附加到的docker容器中VS Code扩展商店**中搜索并安装扩展“Jupyter”和“Python”。
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker8.png)
+
+安装完成扩展后，选择任意的notebook文件执行，发现可以正常显示并运行，说明环境配置成功。
+
+![img](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/TSH/Documents/GitHub/d2l-pytorch-docker/img/docker9.png)
+
+注意事项：
+
+1. d2l中部分章节需要下载数据集，建议先在主机下载好后，存放到d2l源码的data目录中，再挂载源码文件夹到docker容器中运行。
+2. 使用shell命令 `uv pip list | grep -E "(torch)+|(d2l)+|(notebook)+"`可以查找是否成功安装d2l所需的软件包。如果缺少软件包而无法运行，建议切换网络后重新构建镜像。
+3. 可以选择暂停docker容器，或者在启动容器时去除“--rm”，可反复重用一个容器。
+4. 针对同一个docker镜像，即使容器每次运行结束后被自动删除，VS Code也会缓存其中安装的插件，下次启动新容器时无需重新下载“Jupyter”和“Python”扩展。

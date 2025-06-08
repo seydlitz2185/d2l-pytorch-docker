@@ -112,14 +112,16 @@ cd C:\Users\用户名\Documents\GitHub\d2l-pytorch-docker #Windows PowerShell
 再执行以下命令构建镜像，本教程中默认使用 `d2l-uv.Dockerfile` 配置文件构建镜像，等待构建完毕即可。
 
 ```
-docker build -t d2l-pytorch-uv -f mnt/c/Users/用户名/Documents/Github/d2l-pytorch-docker/d2l-uv.Dockerfile .
+docker build -t d2l-pytorch-uv -f /mnt/c/Users/用户名/Documents/Github/d2l-pytorch-docker/d2l-uv.Dockerfile .
 ```
 
 ![img](./img/docker3.png)
 
 注意事项：
 
-本配置文件为保证兼容性和节约构建时间与硬盘空间，只下载cpu版本的torch软件包。但cpu版本的torch软件包在很多国内镜像源中缺失，只能指定从torch官网下载，可能存在下载缓慢的问题。
+1. 本配置文件为保证兼容性和节约构建时间与硬盘空间，只下载cpu版本的torch软件包。但cpu版本的torch软件包在很多国内镜像源中缺失，只能指定从torch官网下载，可能存在下载缓慢的问题。
+2. Windows用户在构建过程中如果出现 ``> [6/6] RUN <<EOF (uv pip install notebook==7.3.2  ...): ` error: Failed to parse: ` Caused by: Empty field is not allowed for PEP508Caused by: Empty field is not allowed for PEP508`` 报错，是因为Windows系统默认换行符为“CRLF”，应在Vs Code右下角改为“LF”，即可正常运行。
+3. 截至2025年6月8日10点10分（GMT+8），本仓库中docker-proxy.txt提供的镜像站还是可用的，若未来某天出现无法正常下载的情况，请参照上一小节“Docker换源”的内容，移除docker engine中的镜像站，改用代理或其他镜像站点加速构建过程。
 
 ### 启动Docker容器
 
@@ -138,7 +140,6 @@ docker run -it --rm --name d2l-docker -v /mnt/c/Users/用户名/Documents/GitHub
 注意事项：
 
 1. 运行Docker容器前请先从d2l官方仓库中克隆源码。`d2l-uv.Dockerfile`在镜像中创建了 `/root/d2l-pytorch`目录，以备挂载d2l源码。
-
 2. 建议在挂载后通过 `cp -r` 命令克隆一份源码，缓解跨文件系统挂载导致io效率低下的问题。亦可使用docker volume的方式挂载。
 
 ### VS Code 连接Docker容器

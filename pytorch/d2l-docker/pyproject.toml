@@ -1,0 +1,37 @@
+[project]
+name = "d2l-pytorch"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "seydlitz2185",email = "njg.sty@gmail.com"}
+]
+
+requires-python = "3.9.16"
+dependencies = [
+    "notebook (>=7.3.2,<8.0.0)",
+    "torch (==2.6.0)",
+    "torchvision (==0.21.0)",
+    "d2l (==1.0.3)",
+]
+
+[tool.poetry]
+package-mode = false
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+[[tool.poetry.source]]
+name = "ali"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+priority = "supplemental"
+
+
+[[tool.poetry.source]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+priority = "supplemental"
+
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+priority = "primary"

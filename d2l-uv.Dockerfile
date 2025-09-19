@@ -38,7 +38,15 @@ ENV PIP_TRUSTED_HOST=pypi.tuna.tsinghua.edu.cn
 # 预先安装项目依赖
 RUN <<EOF
     uv pip install notebook==7.3.2 --system 
-    uv pip install torch==2.6.0+cpu torchvision==0.21.0+cpu --index-url https://download.pytorch.org/whl/cpu  --system
+    # 按架构选择安装源与包名：
+    # - arm64/aarch64：使用官方 whl 索引（不带 +cpu 后缀）
+    # - amd64/x86_64：使用 /cpu 索引并带 +cpu 后缀
+    ARCH="$(dpkg --print-architecture)"
+    if [ "$ARCH" = "arm64" ] || [ "$ARCH" = "aarch64" ]; then
+        uv pip install torch==2.6.0+cpu torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu --system
+    else
+        uv pip install torch==2.6.0+cpu torchvision==0.21.0+cpu --index-url https://download.pytorch.org/whl/cpu --system
+    fi
     uv pip install d2l==1.0.3 --system
 EOF
 

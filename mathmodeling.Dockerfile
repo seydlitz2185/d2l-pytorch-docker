@@ -1,5 +1,4 @@
-FROM python:3.13-bookworm
-
+FROM python:3.13-slim
 # 构建与运行示例：
 # # CPU 版本（默认）
 # docker build -t pytorch-cpu .

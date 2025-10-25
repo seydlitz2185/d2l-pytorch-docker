@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.13-bookworm
 
 # 构建与运行示例：
 # # CPU 版本（默认）
@@ -15,13 +15,20 @@ RUN <<EOT
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie main contrib non-free
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie-updates main contrib non-free
 deb https://mirrors.tuna.tsinghua.edu.cn/debian-security trixie-security main contrib non-free
-EOF
-
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-        git wget ca-certificates curl vim && \
-    rm -rf /var/lib/apt/lists/*
 EOT
+
+# 更新源并安装工具 + 字体
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git \
+        wget \
+        ca-certificates \
+        curl \
+        vim \
+        fontconfig \
+        fonts-noto-cjk && \
+    # fc-cache -fv  && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # ========== 2️⃣ 配置 pip 国内镜像 + 安装 uv ==========
@@ -37,10 +44,11 @@ ENV PIP_TRUSTED_HOST=pypi.tuna.tsinghua.edu.cn
 
 # ========== 4️⃣ 安装基础包 ==========
 RUN uv pip install --system \
-notebook jupyterlab openpyxl \
-numpy pandas scipy scikit-learn \
-matplotlib seaborn tqdm pillow requests \
-polars optuna joblib imblearn
+    notebook jupyterlab openpyxl \
+    numpy pandas scipy scikit-learn \
+    matplotlib seaborn tqdm pillow requests \
+    polars optuna joblib imblearn \
+    opencv-python 
 
 # ========== 5️⃣ 安装 PyTorch + torchvision + d2l ==========
 RUN <<EOF
@@ -52,7 +60,11 @@ RUN <<EOF
     fi
     # 安装 d2l (动手学深度学习)
     # ```uv pip install d2l==1.0.3 --system
+
+
 EOF
+    # 安装 ultralytics（不会再自动下载 torch）
+RUN pip install --no-cache-dir ultralytics
 
 # ========== 6️⃣ 预设工作卷和默认启动项 ==========
 VOLUME ["/root/mathmodeling"]

@@ -31,7 +31,7 @@ RUN uv pip install --system \
     notebook jupyterlab openpyxl \
     numpy pandas scipy scikit-learn \
     matplotlib seaborn tqdm pillow requests \
-    polars optuna joblib imbalanced-learn
+    polars optuna joblib imbalanced-learn ipywidgets
 
 # ========== 6️⃣ 安装 PyTorch GPU 生态 ==========
 RUN uv pip install --system \
